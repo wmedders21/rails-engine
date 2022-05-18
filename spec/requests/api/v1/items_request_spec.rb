@@ -153,4 +153,24 @@ RSpec.describe 'the item API' do
     expect(response.status).to eq(204)
     expect(response.body).to eq("")
   end
+
+  it 'destroy invoice if this was the only item on invoice' do
+    merchant = create(:merchant)
+    customer = Customer.create(first_name: "Willy", last_name: "Wonka")
+    item_1 = create(:item, merchant_id: merchant.id)
+    item_2 = create(:item, merchant_id: merchant.id)
+    #invoice_1 has only 1 item: item_1
+    invoice_1 = Invoice.create(customer_id: customer.id, merchant_id: merchant.id, status: 'shipped')
+    #invoice_2 has 2 items: both item_1 and item_2
+    invoice_2 = Invoice.create(customer_id: customer.id, merchant_id: merchant.id, status: 'shipped')
+    InvoiceItem.create(item_id: item_1.id, invoice_id: invoice_1.id, quantity: 1, unit_price: item_1.unit_price)
+    InvoiceItem.create(item_id: item_1.id, invoice_id: invoice_2.id, quantity: 1, unit_price: item_1.unit_price)
+    InvoiceItem.create(item_id: item_2.id, invoice_id: invoice_2.id, quantity: 1, unit_price: item_2.unit_price)
+
+    expect(Invoice.all.count).to eq(2)
+
+    delete "/api/v1/items/#{item_1.id}"
+
+    expect(Invoice.all.count).to eq(1)
+  end
 end
