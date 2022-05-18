@@ -150,7 +150,7 @@ RSpec.describe 'the item API' do
 
     delete "/api/v1/items/#{item.id}"
 
-    binding.pry
-
+    expect(response.status).to eq(204)
+    expect(response.body).to eq("")
   end
 end
