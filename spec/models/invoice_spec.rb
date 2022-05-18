@@ -31,7 +31,8 @@ RSpec.describe Invoice, type: :model do
       InvoiceItem.create(item_id: item_1.id, invoice_id: invoice_2.id, quantity: 1, unit_price: item_1.unit_price)
       InvoiceItem.create(item_id: item_2.id, invoice_id: invoice_2.id, quantity: 1, unit_price: item_2.unit_price)
 
-      expect(Invoice.find_by_item_id).to eq([invoice_1, invoice_2])
+      expect(Invoice.find_by_item_id(item_1.id)).to eq([invoice_1, invoice_2])
+      expect(Invoice.find_by_item_id(item_2.id)).to eq([invoice_2])
     end
   end
 end
