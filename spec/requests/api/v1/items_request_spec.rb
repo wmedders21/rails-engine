@@ -203,5 +203,9 @@ RSpec.describe 'the item API' do
     get "/api/v1/items/6"
 
     expect(response.status).to eq(404)
+
+    get "/api/v1/items/6/merchant"
+
+    expect(response.status).to eq(404)    
   end
 end
