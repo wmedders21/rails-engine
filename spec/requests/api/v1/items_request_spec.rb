@@ -143,4 +143,14 @@ RSpec.describe 'the item API' do
     expect(item[:attributes]).to have_key(:merchant_id)
     expect(item[:attributes][:merchant_id]).to eq(seller.id)
   end
+
+  it 'destroy item' do
+    merchant = create(:merchant)
+    item = create(:item, merchant_id: merchant.id)
+
+    delete "/api/v1/items/#{item.id}"
+
+    binding.pry
+
+  end
 end
