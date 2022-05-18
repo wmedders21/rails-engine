@@ -173,4 +173,26 @@ RSpec.describe 'the item API' do
 
     expect(Invoice.all.count).to eq(1)
   end
+
+  it 'sends the merchant assocaited with an item' do
+    merchant_1 = create(:merchant)
+    merchant_2 = create(:merchant)
+
+    item = create(:item, merchant_id: merchant_1.id)
+
+    get "/api/v1/items/#{item.id}/merchant"
+    response_body = JSON.parse(response.body, symbolize_names: true)
+
+    merchant = response_body[:data]
+
+    expect(response).to be_successful
+    expect(merchant).to have_key(:id)
+    expect(merchant[:id]).to eq(merchant_1.id.to_s)
+
+    expect(merchant).to have_key(:type)
+    expect(merchant[:type]).to eq('merchant')
+
+    expect(merchant[:attributes]).to have_key(:name)
+    expect(merchant[:attributes][:name]).to eq(merchant_1.name)
+  end
 end
