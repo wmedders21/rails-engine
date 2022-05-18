@@ -60,7 +60,7 @@ RSpec.describe 'The merchants API' do
     expect(items.length).to eq(3)
 
     items.each do |item|
-    
+
       expect(item).to have_key(:id)
       expect(item[:id]).to be_a(String)
 
@@ -80,13 +80,4 @@ RSpec.describe 'The merchants API' do
       expect(item[:attributes][:merchant_id]).to be_a(Integer)
     end
   end
-
-  # it 'creates a merchant' do
-  #   merchant_params = {name: "Willy's"}
-  #   headers = { "CONTENT_TYPE" => "application/json" }
-  #   post '/api/v1/merchants', headers: headers, params: JSON.generate(merchant: merchant_params)
-  #
-  #   expect(response).to be_successful
-  #
-  # end
 end
