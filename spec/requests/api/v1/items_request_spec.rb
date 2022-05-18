@@ -71,4 +71,14 @@ RSpec.describe 'the item API' do
     expect(item[:attributes]).to have_key(:merchant_id)
     expect(item[:attributes][:merchant_id]).to be_a(Integer)
   end
+
+  it 'creates an item' do
+    item_params = { name: 'Picture Frame', description: '4x6', unit_price: 3.23, merchant_id: 3 }
+    headers = { "CONTENT_TYPE" => "application/json" }
+    post '/api/v1/items', headers: headers, params: JSON.generate(item: item_params)
+
+    expect(response).to be_successful
+
+  end
+
 end
