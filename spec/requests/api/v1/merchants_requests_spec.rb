@@ -60,6 +60,7 @@ RSpec.describe 'The merchants API' do
     expect(items.length).to eq(3)
 
     items.each do |item|
+    
       expect(item).to have_key(:id)
       expect(item[:id]).to be_a(String)
 
@@ -74,9 +75,6 @@ RSpec.describe 'The merchants API' do
 
       expect(item[:attributes]).to have_key(:unit_price)
       expect(item[:attributes][:unit_price]).to be_a(Float)
-
-      expect(item[:attributes]).to have_key(:merchant_id)
-      expect(item[:attributes][:merchant_id]).to be_a(String)
     end
   end
 
