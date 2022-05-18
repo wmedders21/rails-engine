@@ -195,4 +195,13 @@ RSpec.describe 'the item API' do
     expect(merchant[:attributes]).to have_key(:name)
     expect(merchant[:attributes][:name]).to eq(merchant_1.name)
   end
+
+  it 'sends error code if item not found' do
+    merchant = create(:merchant)
+    item = create(:item, merchant_id: merchant.id, id: 5)
+
+    get "/api/v1/items/6"
+
+    expect(response.status).to eq(404)
+  end
 end
