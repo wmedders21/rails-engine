@@ -12,7 +12,7 @@ class Item < ApplicationRecord
   validates_numericality_of :unit_price
 
   def self.name_search(keyword)
-    keyword = '%'.concat(keyword).concat('%')
+    keyword = '%'.concat(keyword.downcase).concat('%')
     Item.where('lower (items.name) like ?', keyword).order(:name).limit(1)
   end
 end
