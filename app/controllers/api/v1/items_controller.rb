@@ -4,18 +4,28 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def show
-    render json: ItemSerializer.new(Item.find_by_id(params[:id]))
+    item = Item.find_by_id(params[:id])
+    if item
+      render json: ItemSerializer.new(item)
+    else
+      render json: { status: "Not Found", code: 404, message: 'item not found' }, status: 404
+    end
   end
 
   def create
     new_item = Item.create(item_params)
-    render json: ItemSerializer.new(new_item)
+    render json: ItemSerializer.new(new_item), status: 201
   end
 
   def update
     item = Item.find_by_id(params[:id])
-    item.update(item_params)
-    render json: ItemSerializer.new(item)
+    merchant = Merchant.find_by_id(item_params[:merchant_id])
+    if item && merchant || item && !item_params.include?(:merchant_id)
+      item.update(item_params)
+      render json: ItemSerializer.new(item)
+    else
+      render status: 404
+    end
   end
 
   def destroy
