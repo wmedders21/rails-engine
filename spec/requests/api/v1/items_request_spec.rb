@@ -206,6 +206,17 @@ RSpec.describe 'the item API' do
 
     get "/api/v1/items/6/merchant"
 
-    expect(response.status).to eq(404)    
+    expect(response.status).to eq(404)
+
+    patch "/api/v1/items/hello"
+
+    expect(response.status).to eq(404)
+
+    item_params = { name: 'Chinese Lantern', description: 'Red paper', unit_price: 41.99, merchant_id: 9999999}
+    headers = { "CONTENT_TYPE" => "application/json" }
+
+    patch "/api/v1/items/#{item.id}", headers: headers, params: JSON.generate(item_params)
+
+    expect(response.status).to eq(404)
   end
 end

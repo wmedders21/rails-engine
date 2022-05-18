@@ -19,8 +19,13 @@ class Api::V1::ItemsController < ApplicationController
 
   def update
     item = Item.find_by_id(params[:id])
-    item.update(item_params)
-    render json: ItemSerializer.new(item)
+    merchant = Merchant.find_by_id(item_params[:merchant_id])
+    if item && merchant || item && !item_params.include?(:merchant_id)
+      item.update(item_params)
+      render json: ItemSerializer.new(item)
+    else
+      render status: 404
+    end
   end
 
   def destroy
