@@ -43,10 +43,9 @@ RSpec.describe 'the item API' do
     item = create(:item, merchant_id: merchant.id)
 
     get "/api/v1/items/#{item.id}"
-    
+
     response_body = JSON.parse(response.body, symbolize_names: true)
     item = response_body[:data]
-
 
     expect(response).to be_successful
     expect(item).to be_a(Hash)
