@@ -10,4 +10,9 @@ class Item < ApplicationRecord
   validates_presence_of :merchant_id
   validates_presence_of :unit_price
   validates_numericality_of :unit_price
+
+  def self.name_search(keyword)
+    keyword = '%'.concat(keyword).concat('%')
+    Item.where('lower (items.name) like ?', keyword).order(:name).limit(1)
+  end
 end
