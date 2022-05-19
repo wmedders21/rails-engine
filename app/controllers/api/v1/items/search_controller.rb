@@ -5,7 +5,8 @@ class Api::V1::Items::SearchController < ApplicationController
       item = Item.name_search(search_params[:name]).first
       render json: ItemSerializer.new(item)
     elsif search_params.include?(:min_price) && search_params.include?(:min_price) && search_params[:min_price] && search_params[:max_price]
-
+      item = Item.price_range_search(search_params[:min_price].to_i, search_params[:max_price].to_i).first
+      render json: ItemSerializer.new(item)
     elsif search_params.include?(:min_price) && search_params[:min_price]
       item = Item.min_price_search(search_params[:min_price].to_i).first
       render json: ItemSerializer.new(item)
@@ -13,7 +14,7 @@ class Api::V1::Items::SearchController < ApplicationController
       item = Item.max_price_search(search_params[:max_price].to_i).first
       render json: ItemSerializer.new(item)
     else
-
+      render status: 404
     end
   end
 

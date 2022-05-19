@@ -23,4 +23,8 @@ class Item < ApplicationRecord
   def self.max_price_search(num)
     Item.where('unit_price <= ?', num).order(:name)
   end
+
+  def self.price_range_search(num_1, num_2)
+    Item.where('unit_price between ? and ?', num_1, num_2).order(:name)
+  end
 end
