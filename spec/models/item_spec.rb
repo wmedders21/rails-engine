@@ -16,4 +16,15 @@ RSpec.describe Item, type: :model do
     it { should validate_presence_of(:unit_price) }
     it { should validate_numericality_of(:unit_price) }
   end
+
+  describe 'class methods' do
+    it '#name_search' do
+      merchant = create(:merchant)
+      item_1 = create(:item, merchant_id: merchant.id, name: 'Turing')
+      item_2 = create(:item, merchant_id: merchant.id, name: 'Ring World')
+      item_3 = create(:item, merchant_id: merchant.id, name: 'Behringer')
+
+      expect(Item.name_search('ring')).to eq([item_3, item_2, item_1])
+    end
+  end
 end
