@@ -9,7 +9,7 @@ class Api::V1::MerchantsController < ApplicationController
     if merchant
       render json: MerchantSerializer.new(merchant)
     else
-      render json: { status: "Not Found", code: 404, message: 'merchant not found' }, status: 404
+      render json: { error: "Not Found" }, status: 404
     end
   end
 end

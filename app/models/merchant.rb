@@ -6,4 +6,9 @@ class Merchant < ApplicationRecord
   has_many :customers, through: :invoices
 
   validates_presence_of :name
+
+  def self.name_search(keyword)
+    keyword = '%'.concat(keyword.downcase).concat('%')
+    Merchant.where('lower (name) like ?', keyword).order(:name)
+  end
 end
