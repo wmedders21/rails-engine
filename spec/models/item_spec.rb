@@ -16,4 +16,43 @@ RSpec.describe Item, type: :model do
     it { should validate_presence_of(:unit_price) }
     it { should validate_numericality_of(:unit_price) }
   end
+
+  describe 'class methods' do
+    it '#name_search' do
+      merchant = create(:merchant)
+      item_1 = create(:item, merchant_id: merchant.id, name: 'Turing')
+      item_2 = create(:item, merchant_id: merchant.id, name: 'Ring World')
+      item_3 = create(:item, merchant_id: merchant.id, name: 'Behringer')
+
+      expect(Item.name_search('ring')).to eq([item_3, item_2, item_1])
+    end
+
+    it '#min_price_search' do
+      merchant = create(:merchant)
+      item_1 = create(:item, merchant_id: merchant.id, name: 'Turing', unit_price: 33)
+      item_2 = create(:item, merchant_id: merchant.id, name: 'Ring World', unit_price: 50)
+      item_3 = create(:item, merchant_id: merchant.id, name: 'Behringer', unit_price: 100)
+
+      expect(Item.min_price_search(40)).to eq([item_3, item_2])
+    end
+
+    it '#max_price_search' do
+      merchant = create(:merchant)
+      item_1 = create(:item, merchant_id: merchant.id, name: 'Turing', unit_price: 33)
+      item_2 = create(:item, merchant_id: merchant.id, name: 'Ring World', unit_price: 50)
+      item_3 = create(:item, merchant_id: merchant.id, name: 'Behringer', unit_price: 100)
+
+      expect(Item.max_price_search(40)).to eq([item_1])
+    end
+
+    it '#price_range_search' do
+      merchant = create(:merchant)
+      item_1 = create(:item, merchant_id: merchant.id, name: 'Turing', unit_price: 33)
+      item_2 = create(:item, merchant_id: merchant.id, name: 'Ring World', unit_price: 50)
+      item_3 = create(:item, merchant_id: merchant.id, name: 'Ping Putter', unit_price: 60)
+      item_4 = create(:item, merchant_id: merchant.id, name: 'Behringer', unit_price: 100)
+
+      expect(Item.price_range_search(40, 70)).to eq([item_3, item_2])
+    end
+  end
 end

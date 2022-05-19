@@ -9,6 +9,6 @@ class Merchant < ApplicationRecord
 
   def self.name_search(keyword)
     keyword = '%'.concat(keyword.downcase).concat('%')
-    Merchant.where('lower (name) like ?', keyword).order(:name)
+    where('lower (name) like ?', keyword).order(:name)
   end
 end
