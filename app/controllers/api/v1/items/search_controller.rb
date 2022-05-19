@@ -1,5 +1,10 @@
 class Api::V1::Items::SearchController < ApplicationController
 
+  def index
+    items = Item.name_search(search_params[:name])
+    render json: ItemSerializer.new(items)
+  end
+
   def show
     # if search_params.include?(:min_price) && search_params.include?(:min_price) && search_params[:min_price] && search_params[:max_price]
     #   item = Item.price_range_search(search_params[:min_price].to_i, search_params[:max_price].to_i).first

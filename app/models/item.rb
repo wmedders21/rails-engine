@@ -13,7 +13,7 @@ class Item < ApplicationRecord
 
   def self.name_search(keyword)
     keyword = '%'.concat(keyword.downcase).concat('%')
-    Item.where('lower (items.name) like ?', keyword).order(:name).limit(1)
+    Item.where('lower (items.name) like ?', keyword).order(:name)
   end
 
   def self.min_price_search(num)
