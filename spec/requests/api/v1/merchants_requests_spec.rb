@@ -34,6 +34,7 @@ RSpec.describe 'The merchants API' do
     merchant = response_body[:data]
 
     expect(response).to be_successful
+    expect(merchant).to be_a(Hash)
     expect(merchant).to have_key(:id)
     expect(merchant[:id]).to be_a(String)
 
