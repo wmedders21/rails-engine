@@ -15,4 +15,8 @@ class Item < ApplicationRecord
     keyword = '%'.concat(keyword.downcase).concat('%')
     Item.where('lower (items.name) like ?', keyword).order(:name).limit(1)
   end
+
+  def self.min_price_search(num)
+    Item.where('unit_price >= ?', num).order(:name)
+  end
 end
