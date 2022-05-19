@@ -19,4 +19,8 @@ class Item < ApplicationRecord
   def self.min_price_search(num)
     Item.where('unit_price >= ?', num).order(:name)
   end
+
+  def self.max_price_search(num)
+    Item.where('unit_price <= ?', num).order(:name)
+  end
 end
