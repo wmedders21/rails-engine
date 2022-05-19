@@ -13,18 +13,18 @@ class Item < ApplicationRecord
 
   def self.name_search(keyword)
     keyword = '%'.concat(keyword.downcase).concat('%')
-    Item.where('lower (items.name) like ?', keyword).order(:name)
+    where('lower (items.name) like ?', keyword).order(:name)
   end
 
   def self.min_price_search(num)
-    Item.where('unit_price >= ?', num).order(:name)
+    where('unit_price >= ?', num).order(:name)
   end
 
   def self.max_price_search(num)
-    Item.where('unit_price <= ?', num).order(:name)
+    where('unit_price <= ?', num).order(:name)
   end
 
   def self.price_range_search(num_1, num_2)
-    Item.where('unit_price between ? and ?', num_1, num_2).order(:name)
+    where('unit_price between ? and ?', num_1, num_2).order(:name)
   end
 end
