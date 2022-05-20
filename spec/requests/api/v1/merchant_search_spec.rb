@@ -48,4 +48,25 @@ RSpec.describe 'the merchant search api' do
       expect(merchant[:attributes][:name]).to be_a(String)
     end
   end
+
+  it 'sends an error' do
+    merchant_1 = create(:merchant, name: 'Turing')
+    merchant_2 = create(:merchant, name: 'Ring World')
+    merchant_3 = create(:merchant, name: 'Behringer')
+
+    get '/api/v1/merchants/find'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/merchants/find?name='
+    expect(response.status).to eq(400)
+
+    get '/api/v1/merchants/find?name=garbagepeople'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/merchants/find_all'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/merchants/find_all?name='
+    expect(response.status).to eq(400)
+  end
 end
