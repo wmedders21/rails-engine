@@ -172,4 +172,38 @@ RSpec.describe 'the item search api' do
       expect(item[:attributes][:merchant_id]).to be_a(Integer)
     end
   end
+
+  it 'sends an error' do
+    merchant = create(:merchant)
+    item_1 = create(:item, name: 'Turing Shirt', merchant_id: merchant.id)
+    item_2 = create(:item, name: 'Ring Binder', merchant_id: merchant.id)
+    item_3 = create(:item, name: 'Ice Cream Sammy', merchant_id: merchant.id)
+
+    get '/api/v1/items/find'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find?name='
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find?name=3453453'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find?name=ring&min_price=50'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find?name=ring&max_price=50'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find?name=ring&min_price=40&max_price=70'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find?min_price=70&max_price=40'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find_all'
+    expect(response.status).to eq(400)
+
+    get '/api/v1/items/find_all?name='
+    expect(response.status).to eq(400)
+  end
 end
